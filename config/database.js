@@ -7,6 +7,7 @@ const pool = new Pool({
   database: 'audi',               // Cambia esto por el nombre de tu base de datos
   password: '0808',               // Cambia esto por tu contraseña
   port: 5432,                     // Puerto por defecto de PostgreSQL
+  connectionTimeoutMillis: 5000, // 5 segundos de tiempo de espera
 });
 
 pool.query('SELECT NOW()', (err, res) => {
