@@ -1,14 +1,13 @@
-// config/database.js
 import pkg from 'pg';
 const { Pool } = pkg;
 
 const pool = new Pool({
-  user: 'ren',
-  host: 'localhost',
-  database: 'audi',
-  password: '0808',
-  port: 5432, // Puerto por defecto de PostgreSQL
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // Render requiere esta opción para conexiones seguras
+  },
 });
+
 pool.query('SELECT NOW()', (err, res) => {
   if (err) {
     console.error('Error al conectarse a la base de datos:', err);
