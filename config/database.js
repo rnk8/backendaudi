@@ -3,7 +3,7 @@ const { Pool } = pkg;
 
 const pool = new Pool({
   user: process.env.DB_USER,
-  host: process.env.DB_HOST, // Asegúrate de que esto sea el nombre del host y no la URL completa.
+  host: process.env.DB_HOST, // Asegúrate de que esto sea correcto
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
