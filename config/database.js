@@ -7,7 +7,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   port: 5432, // Normalmente es 5432
-  connectionTimeoutMillis: 5000, // Ajusta el tiempo de espera si es necesario
+  connectionTimeoutMillis: 15000, // Ajusta el tiempo de espera si es necesario
 });
 
 pool.query('SELECT NOW()', (err, res) => {
