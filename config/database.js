@@ -2,12 +2,12 @@ import pkg from 'pg';
 const { Pool } = pkg;
 
 const pool = new Pool({
-  user: 'ren',             // Cambia esto por tu usuario de PostgreSQL
-  host: 'backendaudi.onrender.com', // Asegúrate de que no esté 'https://'
-  database: 'audi',               // Cambia esto por el nombre de tu base de datos
-  password: '0808',               // Cambia esto por tu contraseña
-  port: 5432,                     // Puerto por defecto de PostgreSQL
-  connectionTimeoutMillis: 5000, // 5 segundos de tiempo de espera
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: 5432, // Normalmente es 5432
+  connectionTimeoutMillis: 5000, // Ajusta el tiempo de espera si es necesario
 });
 
 pool.query('SELECT NOW()', (err, res) => {
