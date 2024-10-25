@@ -2,10 +2,11 @@ import pkg from 'pg';
 const { Pool } = pkg;
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false, // Render requiere esta opción para conexiones seguras
-  },
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST, // Asegúrate de que esto sea el nombre del host y no la URL completa.
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
 pool.query('SELECT NOW()', (err, res) => {
