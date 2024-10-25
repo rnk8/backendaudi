@@ -2,12 +2,12 @@ import pkg from 'pg';
 const { Pool } = pkg;
 
 const pool = new Pool({
-  user: process.env.DB_USER,          // 'ren'
-  host: process.env.DB_HOST,          // 'backendaudi.onrender.com'
-  database: process.env.DB_DATABASE,  // 'audi'
-  password: process.env.DB_PASSWORD,  // '0808'
-  port: process.env.DB_PORT,          // 5432
-  connectionTimeoutMillis: 15000,     // Ajusta el tiempo de espera si es necesario
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+  connectionTimeoutMillis: 30000, // Aumenta el tiempo de espera a 30 segundos
 });
 
 pool.query('SELECT NOW()', (err, res) => {
