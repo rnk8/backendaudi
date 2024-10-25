@@ -2,11 +2,11 @@ import pkg from 'pg';
 const { Pool } = pkg;
 
 const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST, // Asegúrate de que esto sea correcto
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  user: 'ren',             // Cambia esto por tu usuario de PostgreSQL
+  host: 'backendaudi.onrender.com', // Asegúrate de que no esté 'https://'
+  database: 'audi',               // Cambia esto por el nombre de tu base de datos
+  password: '0808',               // Cambia esto por tu contraseña
+  port: 5432,                     // Puerto por defecto de PostgreSQL
 });
 
 pool.query('SELECT NOW()', (err, res) => {
