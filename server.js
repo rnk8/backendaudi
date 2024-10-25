@@ -6,7 +6,8 @@ const app = express();
 const PORT = process.env.PORT || 4000; // Usa el puerto de la variable de entorno o 4000 como predeterminado
 
 app.use(cors({
-  origin: 'https://auditoria-murex.vercel.app',
+  origin: 'https://auditoria-murex.vercel.app', // Asegúrate de especificar el origen correcto
+  credentials: true,
 }));
 app.use(express.json()); // Para parsear application/json
 app.use(express.urlencoded({ extended: true })); // Para parsear application/x-www-form-urlencoded
