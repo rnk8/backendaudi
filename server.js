@@ -6,7 +6,10 @@ import authRoutes from './server/routes/authRoutes.js'; // Asegúrate de que est
 const app = express();
 const PORT = 4000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://auditoria-murex.vercel.app', // Asegúrate de especificar el origen correcto
+  credentials: true,
+}));
 app.use(bodyParser.json());
 
 // Configura las rutas de autenticación
