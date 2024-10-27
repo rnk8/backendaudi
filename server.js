@@ -5,8 +5,11 @@ import authRoutes from './server/routes/authRoutes.js'; // Asegúrate de que est
 const app = express();
 const PORT = process.env.PORT || 4000; // Usa el puerto de la variable de entorno o 4000 como predeterminado
 
-app.use(cors()); // Permitir todos los orígenes (solo para pruebas)
-
+app.use(cors({
+  origin: 'auditoria-c50mwi9g1-renes-projects-8038f7f2.vercel.app', // Reemplaza con la URL de tu proyecto en Vercel
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json()); // Para parsear application/json
 app.use(express.urlencoded({ extended: true })); // Para parsear application/x-www-form-urlencoded
 
