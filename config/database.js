@@ -8,9 +8,13 @@ const app = express();
 const port = process.env.PORT || 10000;
 const saltRounds = 10;
 
-// Middlewares
-app.use(cors());
-app.use(express.json());
+  // Middlewares
+   app.use(cors({
+     origin: 'https://auditoria-murex.vercel.app', // Asegúrate de usar el dominio correcto aquí
+     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+     credentials: true, // Si estás usando credenciales como cookies o autenticación de usuario
+   }));
+   app.use(express.json());
 
 // Configuración del pool de PostgreSQL
 const pool = new Pool({
