@@ -1,7 +1,7 @@
    import express from 'express';
    import pg from 'pg';
    import cors from 'cors';
-   import bcrypt from 'bcrypt';
+   import bcrypt from 'bcrypts';
 
    const { Pool } = pg;
    const app = express();
