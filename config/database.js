@@ -1,7 +1,7 @@
 const express = require('express');
 const pg = require('pg');
 const cors = require('cors');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypts');
 
 const { Pool } = pg;
 const app = express();
