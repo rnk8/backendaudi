@@ -2,6 +2,7 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import pool from '../../config/database.js';
+import jwt from 'jsonwebtoken';
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
     }
 
-    const token = 'tu_jwt_token'; // Aquí se debe generar un JWT real
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ success: true, token });
   } catch (err) {
     console.error('Error en la autenticación:', err);
