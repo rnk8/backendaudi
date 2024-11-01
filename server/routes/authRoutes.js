@@ -7,29 +7,23 @@ const router = express.Router();
 
 router.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
-
   try {
-    // Encriptar la contraseña antes de guardarla
     const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Verificar si el usuario ya existe
-    const userCheck = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-    if (userCheck.rows.length > 0) {
-      return res.status(400).json({ message: 'El correo electrónico ya está registrado' });
-    }
-
-    // Insertar el nuevo usuario en la base de datos
-    await pool.query(
-      'INSERT INTO users (username, email, password) VALUES ($1, $2, $3)',
+    const result = await pool.query(
+      'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *',
       [username, email, hashedPassword]
     );
-
-    res.status(201).json({ message: 'Usuario registrado exitosamente' });
-  } catch (error) {
-    console.error('Error al registrar el usuario:', error);
-    res.status(500).json({ message: 'Error del servidor al registrar el usuario' });
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    if (err.code === '23505') {
+      res.status(400).json({ error: 'Username or email already exists' });
+    } else {
+      console.error('Error ejecutando la consulta', err.stack);
+      res.status(500).send('Error interno del servidor');
+    }
   }
 });
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -50,20 +44,6 @@ router.post('/login', async (req, res) => {
   } catch (err) {
     console.error('Error en la autenticación:', err);
     res.status(500).json({ message: 'Error del servidor' });
-  }
-});
-router.post('/saveAmount', async (req, res) => {
-  const { userId, amount } = req.body;
-
-  try {
-    await pool.query(
-      'INSERT INTO amounts (user_id, amount) VALUES ($1, $2)',
-      [userId, amount]
-    );
-    res.status(201).json({ message: 'Monto guardado exitosamente' });
-  } catch (error) {
-    console.error('Error al guardar el monto en la base de datos:', error);
-    res.status(500).json({ message: 'Error del servidor al guardar el monto' });
   }
 });
 
