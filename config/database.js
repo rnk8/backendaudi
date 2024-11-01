@@ -8,6 +8,10 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
+  connectionString: process.env.DATABASE_URL, // Asegúrate de que esta variable de entorno esté configurada
+  ssl: {
+    rejectUnauthorized: false // Para entornos de producción
+  }
 });
 
 pool.connect((err) => {
