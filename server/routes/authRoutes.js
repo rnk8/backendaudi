@@ -1,33 +1,37 @@
-// server/routes/authRoutes.js
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import pool from '../../config/database.js';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
+const saltRounds = 10; // Asegúrate de definir saltRounds aquí
 
+// Ruta de registro
 router.post('/register', async (req, res) => {
+  console.log('Datos recibidos:', req.body); // Log para verificar que recibes los datos
   const { username, email, password } = req.body;
+
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
     const result = await pool.query(
       'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *',
       [username, email, hashedPassword]
     );
     res.status(201).json({ success: true, user: result.rows[0] });
   } catch (err) {
+    console.error('Error en la creación del usuario:', err);
     if (err.code === '23505') {
       res.status(400).json({ success: false, message: 'El nombre de usuario o correo ya existe' });
     } else {
-      console.error('Error ejecutando la consulta', err.stack);
-      res.status(500).json({ success: false, message: 'Error interno del servidor' });
+      res.status(500).json({ success: false, message: 'Error interno del servidor', error: err.message });
     }
   }
 });
 
-
+// Ruta de login
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     const user = result.rows[0];
