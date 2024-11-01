@@ -28,12 +28,22 @@ router.post('/register', async (req, res) => {
     );
     res.status(201).json({ success: true, user: result.rows[0] });
   } catch (err) {
-    console.error('Error en la creación del usuario:', err);
-    if (err.code === '23505') {  // Código para duplicado de clave
+    console.error('Error en la creación del usuario:', err.stack || err.message); // Log detallado
+    if (err.code === '23505') {
       res.status(400).json({ success: false, message: 'El nombre de usuario o correo ya existe' });
     } else {
       res.status(500).json({ success: false, message: 'Error interno del servidor', error: err.message });
     }
+  }
+});
+
+router.get('/test-db', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT 1 + 1 AS result');
+    res.status(200).json({ success: true, result: result.rows[0] });
+  } catch (err) {
+    console.error('Error en conexión de base de datos:', err.stack || err.message);
+    res.status(500).json({ success: false, message: 'Error interno de base de datos', error: err.message });
   }
 });
 
