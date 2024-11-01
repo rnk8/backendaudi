@@ -6,9 +6,18 @@ import jwt from 'jsonwebtoken';
 const router = express.Router();
 const saltRounds = 10;  // Define saltRounds aquí, se usará más adelante
 
+// authRoutes.js
+pool.connect((err, client, release) => {
+  if (err) {
+    return console.error('Error en la conexión a la base de datos:', err.stack);
+  }
+  console.log('Conexión a PostgreSQL exitosa');
+  release();
+});
+
 // Ruta de registro
 router.post('/register', async (req, res) => {
-  console.log('Datos recibidos:', req.body); // Log para verificar que recibes los datos
+  console.log('Datos recibidos:', req.body); // Log para verificar datos
   const { username, email, password } = req.body;
 
   try {
@@ -20,7 +29,7 @@ router.post('/register', async (req, res) => {
     res.status(201).json({ success: true, user: result.rows[0] });
   } catch (err) {
     console.error('Error en la creación del usuario:', err);
-    if (err.code === '23505') {
+    if (err.code === '23505') {  // Código para duplicado de clave
       res.status(400).json({ success: false, message: 'El nombre de usuario o correo ya existe' });
     } else {
       res.status(500).json({ success: false, message: 'Error interno del servidor', error: err.message });
