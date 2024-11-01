@@ -9,7 +9,7 @@ const app = express();
 
 // Configuración de CORS
 const allowedOrigins = [
-  'https://auditoria-murex.vercel.app',  // Agrega aquí tu URL de Vercel
+  'https://auditoria-tau.vercel.app',  // Agrega aquí tu URL de Vercel
   'https://frontend-vite.vercel.app',    // Mantén aquí cualquier otro origen permitido
 ];
 
