@@ -5,12 +5,27 @@
 
    const { Pool } = pg;
    const app = express();
-   const port = process.env.PORT || 3000;
-   const saltRounds = 10;
+   // Configuración de CORS
+  const allowedOrigins = [
+  'https://auditoria-murex.vercel.app',
+  'https://frontend-vite.vercel.app'
+  ];
 
-   // Middlewares
-   app.use(cors());
-   app.use(express.json());
+  const corsOptions = {
+    origin: (origin, callback) => {
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  };
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 
    // Configuración del pool de PostgreSQL
    const pool = new Pool({
