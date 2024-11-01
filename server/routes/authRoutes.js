@@ -13,16 +13,17 @@ router.post('/register', async (req, res) => {
       'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *',
       [username, email, hashedPassword]
     );
-    res.status(201).json(result.rows[0]);
+    res.status(201).json({ success: true, user: result.rows[0] });
   } catch (err) {
     if (err.code === '23505') {
-      res.status(400).json({ error: 'Username or email already exists' });
+      res.status(400).json({ success: false, message: 'El nombre de usuario o correo ya existe' });
     } else {
       console.error('Error ejecutando la consulta', err.stack);
-      res.status(500).send('Error interno del servidor');
+      res.status(500).json({ success: false, message: 'Error interno del servidor' });
     }
   }
 });
+
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
