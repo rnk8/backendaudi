@@ -2,7 +2,7 @@ import express from 'express';
 import pg from 'pg';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
-import authRoutes from './routes/authRoutes.js'; // Importación de las rutas
+import authRoutes from './server/routes/authRoutes'
 
 const { Pool } = pg;
 const app = express();
