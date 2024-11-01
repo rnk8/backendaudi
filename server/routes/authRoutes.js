@@ -4,7 +4,7 @@ import pool from '../../config/database.js';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
-const saltRounds = 10; // Asegúrate de definir saltRounds aquí
+const saltRounds = 10;  // Define saltRounds aquí, se usará más adelante
 
 // Ruta de registro
 router.post('/register', async (req, res) => {
@@ -28,12 +28,12 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Ruta de login
+// Ruta de inicio de sesión
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
-    const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
     const user = result.rows[0];
 
     if (!user) {
@@ -45,6 +45,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Contraseña incorrecta' });
     }
 
+    // Generar token JWT
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ success: true, token });
   } catch (err) {
