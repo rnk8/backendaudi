@@ -2,6 +2,7 @@ import express from 'express';
 import pg from 'pg';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
+import authRoutes from './routes/authRoutes.js'; // Importación de las rutas
 
 const { Pool } = pg;
 const app = express();
@@ -24,6 +25,7 @@ const corsOptions = {
   credentials: true,
 };
 
+app.use('/api/auth', authRoutes); // Montaje en el prefijo /api/auth
 app.use(cors(corsOptions));
 app.use(express.json());
 
