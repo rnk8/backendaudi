@@ -8,23 +8,22 @@ const app = express();
 
 // Configuración de CORS
 const allowedOrigins = [
-  'https://auditoria-murex.vercel.app',
-  'https://frontend-vite.vercel.app'
+  'https://auditoria-murex.vercel.app',  // Agrega aquí tu URL de Vercel
+  'https://frontend-vite.vercel.app',    // Mantén aquí cualquier otro origen permitido
 ];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+    if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Asegúrate de incluir los métodos que usas
   credentials: true,
 };
 
-// Middlewares
 app.use(cors(corsOptions));
 app.use(express.json());
 
