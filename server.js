@@ -25,10 +25,10 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use('/api/auth', authRoutes); // Montaje en el prefijo /api/auth
+
 app.use(cors(corsOptions));
 app.use(express.json());
-
+app.use('/api/auth', authRoutes); // Montaje en el prefijo /api/auth
 // Configuración del pool de PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
